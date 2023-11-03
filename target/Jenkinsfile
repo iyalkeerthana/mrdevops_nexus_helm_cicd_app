@@ -5,12 +5,15 @@ pipeline {
             agent {
                 docker {
                     image 'maven'
-                    args '-v /home/ubuntu/sonar:/root/.m2/repository'
+                    volumes {
+                        '/home/jenkins/.m2/repository': '/.m2/repository'
+                    }
                 }
             }
             steps {
                 script {
                     withSonarQubeEnv(credentialsId: 'sonar-token') { 
+                     sh 'mvn --version'
                      sh 'mvn clean package sonar:sonar'
                  }
 
