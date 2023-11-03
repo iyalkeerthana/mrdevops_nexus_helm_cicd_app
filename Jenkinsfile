@@ -1,43 +1,21 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven'
+            args '-v $HOME/.m2:/root/.m2'
+        }
+    }
     stages {
-        stage ('Workspace clean') {
+        stage('SonarQube Code Check') {
             steps {
                 script {
-                    cleanWs()
+                    sh 'whoami' // Check the user running the pipeline inside the Docker container
+                    sh 'chown -R root:root $HOME/.m2' // Apply permissions using root user
+                    withSonarQubeEnv(credentialsId: 'sonar-token') {
+                        sh 'mvn clean package sonar:sonar'
+                    }
                 }
             }
         }
-        stage ('check user permissions') {
-            agent {
-                docker {
-                    image 'maven'
-                    args '-v $HOME/.m2:/root/.m2'
-                }
-            }
-            steps {
-                sh 'whoami'
-                sh 'chown -R root:root $HOME/.m2'
-            }
-        }    
-        // stage ('SonarQube Code Check') {
-        //     agent {
-        //         docker {
-        //             image 'maven'
-        //             args '-v $HOME/.m2:/root/.m2'
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             sh 'chown -R root:root $HOME/.m2'
-        //             withSonarQubeEnv(credentialsId: 'sonar-token') {
-        //                 sh 'mvn -e clean package sonar:sonar'
-        //             }
-
-        //         }
-               
-        //     }
-        // }
     }
 }
-
