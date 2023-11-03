@@ -10,7 +10,7 @@ pipeline {
             }
             steps {
                 sh 'mvn --version'
-                sh 'whoami'
+                sh 'id'
                 sh 'hostname'
                 sh 'ip a'
                
