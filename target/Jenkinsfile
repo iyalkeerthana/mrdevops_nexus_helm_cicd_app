@@ -5,14 +5,14 @@ pipeline {
             agent {
                 docker {
                     image 'maven'
-                    sh 'chown -R jenkins:jenkins $HOME/.m2'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
             steps {
                 script {
+                    sh 'chown -R jenkins:jenkins $HOME/.m2'
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
-                        sh 'mvn clean package sonar:sonar'
+                        sh 'mvn -e clean package sonar:sonar'
                     }
 
                 }
