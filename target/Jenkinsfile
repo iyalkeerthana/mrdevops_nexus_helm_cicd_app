@@ -5,6 +5,7 @@ pipeline {
             agent {
                 docker {
                     image 'maven'
+                    args '-u root'
                 }
             }
             steps {
@@ -15,11 +16,6 @@ pipeline {
                      sh 'mvn clean package sonar:sonar'
                  }
 
-                }
-            }
-            post {
-                always {
-                    cleanWS()
                 }
             }
         }
