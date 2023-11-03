@@ -1,19 +1,25 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven'
-        }
-    }
+    agent none
     stages {
-        stage('Test') {
+        stage('Back-end') {
+            agent {
+                docker {
+                    image 'node:16-alphine'
+                }
+            }
+            steps {
+                sh 'node --version'
+
+            }
+        }
+        stage('front-end') {
+            agent {
+                docker {
+                    image 'maven'
+                }
+            }
             steps {
                 sh 'mvn --version'
-                script {
-                    withSonarQubeEnv(credentialsId: 'sonar-token') {
-                      sh 'mvn clean package sonar:sonar'
-                }
-                }
-                
             }
         }
     }
