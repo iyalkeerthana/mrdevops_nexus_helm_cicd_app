@@ -9,6 +9,7 @@ pipeline {
             }
             steps {
                 script {
+                    sh 'chmod -R 777 /.m2/repository'
                     withSonarQubeEnv(credentialsId: 'sonar-token') { 
                      sh 'mvn --version'
                      sh 'mvn clean package sonar:sonar'
