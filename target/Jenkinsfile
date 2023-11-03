@@ -10,7 +10,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'chown -R jenkins:jenkins $HOME/.m2'
+                    sh 'chown -R root:root $HOME/.m2'
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
                         sh 'mvn -e clean package sonar:sonar'
                     }
