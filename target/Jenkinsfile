@@ -8,8 +8,6 @@ pipeline {
                 }
             }
         }
-    }
-    stages {
         stage ('SCM Checkout') {
             steps {
                 script {
