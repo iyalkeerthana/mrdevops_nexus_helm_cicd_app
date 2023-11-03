@@ -8,8 +8,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'nginx --version'
-
+                sh 'nginx -v'
             }
         }
         stage('front-end') {
