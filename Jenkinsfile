@@ -4,11 +4,11 @@ pipeline {
         stage('Back-end') {
             agent {
                 docker {
-                    image 'node:16-alphine'
+                    image 'nginx'
                 }
             }
             steps {
-                sh 'node --version'
+                sh 'nginx --version'
 
             }
         }
