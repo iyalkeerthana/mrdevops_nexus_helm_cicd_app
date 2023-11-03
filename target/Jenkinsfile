@@ -12,7 +12,7 @@ pipeline {
                 sh 'mvn --version'
                 sh 'id'
                 sh 'hostname'
-                sh 'ip a'
+                sh 'ifconfig'
                
             }
         }
