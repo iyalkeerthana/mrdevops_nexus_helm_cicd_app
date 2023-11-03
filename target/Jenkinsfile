@@ -5,6 +5,7 @@ pipeline {
             agent {
                 docker {
                     image 'maven'
+                    args '-v /home/ubuntu/sonar:/root/.m2/repository'
                 }
             }
             steps {
