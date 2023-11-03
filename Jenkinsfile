@@ -17,7 +17,7 @@ pipeline {
                 checkout scm
                 sh 'mvn clean package'
                 
-                withSonarQubeEnv(credentialsId: 'sonar-token') {
+                withSonarQubeEnv(credentialsId: 'sonar-token', installationName: 'Default') {
                     sh 'mvn sonar:sonar'
                 }
             }
