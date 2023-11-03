@@ -6,7 +6,7 @@ pipeline {
                 docker {
                     image 'maven'
                     volumes {
-                        '/home/jenkins/.m2/repository': '/.m2/repository'
+                        '/home/jenkins/.m2/repository'
                     }
                 }
             }
