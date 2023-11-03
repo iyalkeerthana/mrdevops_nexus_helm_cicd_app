@@ -8,6 +8,12 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'mvn --version'
+                script {
+                    withSonarQubeEnv(credentialsId: 'sonar-token') {
+                      sh 'mvn clean package sonar:sonar'
+                }
+                }
+                
             }
         }
     }
