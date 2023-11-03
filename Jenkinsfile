@@ -12,7 +12,11 @@ pipeline {
             }
         }
         stage('Java Code Build') {
-            agent any
+            agent {
+                docker {
+                    image 'maven'
+                }
+            }
             steps {
                 checkout scm
                 sh 'mvn clean package'
