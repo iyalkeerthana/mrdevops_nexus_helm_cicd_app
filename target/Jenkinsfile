@@ -1,23 +1,10 @@
 pipeline {
-    agent any    
+    agent any
     stages {
-        stage('SonarQube Code Qaulity Check') {
-            agent {
-                docker {
-                    image 'maven'
-                    args '-u root'
-                }
-            }
+        stage ('SCM Checkout') {
             steps {
-                script {
-                    sh 'chmod -R 777 /.m2/repository'
-                    withSonarQubeEnv(credentialsId: 'sonar-token') { 
-                     sh 'mvn --version'
-                     sh 'mvn clean package sonar:sonar'
-                 }
-
-                }
+                git 'https://github.com/iyalkeerthana/mrdevops_nexus_helm_cicd_app.git'
             }
         }
-    }
+    }    
 }
