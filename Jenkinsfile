@@ -1,17 +1,7 @@
 pipeline {
     agent none
     stages {
-        stage('Back-end') {
-            agent {
-                docker {
-                    image 'nginx'
-                }
-            }
-            steps {
-                sh 'nginx -v'
-            }
-        }
-        stage('front-end') {
+        stage('Front-End') {
             agent {
                 docker {
                     image 'maven'
@@ -21,5 +11,17 @@ pipeline {
                 sh 'mvn --version'
             }
         }
+        stage('Java Code Build') {
+            agent any
+            steps {
+                checkout scm
+                sh 'mvn clean package'
+                
+                withSonarQubeEnv(credentialsId: 'sonar-token') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
     }
 }
+
