@@ -42,6 +42,15 @@ pipeline {
                 }
             }
         }
+        stage ('Arrest the misconfigurations using datree in helm charts') {
+            steps {
+                script {
+                    dir('kubernetes/myapp') {
+                        sh 'helm datree test .'
+                 }
+                }
+            }
+        }
 
     }
     post {
