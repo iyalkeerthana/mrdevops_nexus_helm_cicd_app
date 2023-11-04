@@ -1,31 +1,29 @@
 pipeline {
     agent none
     stages {
-        stage('Front-End') {
+        stage('SQ Code Build') {
             agent {
                 docker {
-                    image 'maven'
+                    image 'maven:3.9-amazoncorretto-17'
                 }
             }
             steps {
-                sh 'mvn --version'
-            }
-        }
-        stage('Java Code Build') {
-            agent {
-                docker {
-                    image 'maven'
-                }
-            }
-            steps {
-                checkout scm
-                sh 'mvn clean package'
-                
-                withSonarQubeEnv(credentialsId: 'sonar-token', installationName: 'Default') {
-                    sh 'mvn sonar:sonar'
+                withSonarQubeEnv(credentialsId: 'sonar-token') {
+                    sh 'mvn clean package sonar:sonar'
                 }
             }
         }
     }
 }
 
+// node {
+//   stage('SCM') {
+//     checkout scm
+//   }
+//   stage('SonarQube Analysis') {
+//     def mvn = tool 'Default Maven';
+//     withSonarQubeEnv() {
+//       sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=meha_project_ci -Dsonar.projectName='meha_project_ci'"
+//     }
+//   }
+// }
