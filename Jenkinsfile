@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         VERSION = "${env.BUILD_ID}"
+        NEXUS_IP = "65.2.6.183"
     }
     stages {
         stage('SQ Code Build') {
@@ -32,10 +33,10 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'nexus-passwd', variable: 'nexus_creds')]) {
                      sh '''
-                       docker build -t 65.2.6.183:8083/springapp:${VERSION} .
-                       docker login -u admin -p $nexus_creds 65.2.6.183:8083
-                       docker push 65.2.6.183:8083/springapp:${VERSION}
-                       docker rmi 65.2.6.183:8083/springapp:${VERSION}
+                       docker build -t $NEXUS_IP:8083/springapp:${VERSION} .
+                       docker login -u admin -p $nexus_creds $NEXUS_IP:8083
+                       docker push $NEXUS_IP:8083/springapp:${VERSION}
+                       docker rmi $NEXUS_IP:8083/springapp:${VERSION}
                      '''
                    }
                 }
