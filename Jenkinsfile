@@ -46,6 +46,7 @@ pipeline {
             steps {
                 script {
                     dir('kubernetes/myapp') {
+                        sh 'helm datree config set offline local'
                         sh 'helm datree test .'
                  }
                 }
