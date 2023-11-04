@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     stages {
         stage('SQ Code Build') {
             agent {
@@ -9,7 +9,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv(credentialsId: 'sonar-token') {
-                    sh 'mvn clean package sonar:sonar'
+                    sh 'mvn -e clean package sonar:sonar'
                 }
             }
         }
