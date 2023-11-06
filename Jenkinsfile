@@ -2,10 +2,10 @@ pipeline {
     agent any
     environment {
         VERSION = "${env.BUILD_ID}"
-        NEXUS_IP = "65.2.6.183"
+        NEXUS_IP = "3.109.121.237"
     }
     stages {
-        stage('SQ Code Build') {
+        stage('SQ Code Quality check') {
             agent {
                 docker {
                     image 'maven:3.9-amazoncorretto-17'
