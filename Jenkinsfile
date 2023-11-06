@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         VERSION = "${env.BUILD_ID}"
-        NEXUS_IP = "3.109.121.237"
+        NEXUS_IP = "3.109.1.35"
     }
     stages {
         stage('SQ Code Quality check') {
@@ -68,12 +68,26 @@ pipeline {
                 }
             }
         }
-        stage ('Deploy the code into kubernetes') {
+        stage ('Kubernetes configuration') {
             steps {
                 script {
                     withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
                      sh 'kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG'
                  }                
+                }
+            }
+        }
+        stage ('Kubernetes Deployment') {
+            steps {
+                script {
+                    withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
+                        dir('kubernetes/myapp') {
+                            sh '''
+                                kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG
+                                kubectl apply -f deployment.yaml
+                                kubectl apply -f service.yaml
+                            '''
+                    }
                 }
             }
         }
