@@ -68,6 +68,14 @@ pipeline {
                 }
             }
         }
+        stage ('Deploy the code into kubernetes') {
+            steps {
+                script {
+                    withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
+                     sh 'kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG'
+                }
+            }
+        }
 
     }
     post {
