@@ -68,15 +68,15 @@ pipeline {
                 }
             }
         }
-        // stage ('Kubernetes configuration') {
-        //     steps {
-        //         script {
-        //             withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
-        //              sh 'kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG'
-        //          }                
-        //         }
-        //     }
-        // }
+        stage ('Kubernetes configuration') {
+            steps {
+                script {
+                    withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
+                     sh 'kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG'
+                 }                
+                }
+            }
+        }
         // stage ('Kubernetes Deployment') {
         //     steps {
         //         script {
