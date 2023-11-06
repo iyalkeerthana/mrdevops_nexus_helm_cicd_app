@@ -68,29 +68,30 @@ pipeline {
                 }
             }
         }
-        stage ('Kubernetes configuration') {
-            steps {
-                script {
-                    withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
-                     sh 'kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG'
-                 }                
-                }
-            }
-        }
-        stage ('Kubernetes Deployment') {
-            steps {
-                script {
-                    withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
-                        dir('kubernetes/myapp') {
-                            sh '''
-                                kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG
-                                kubectl apply -f deployment.yaml
-                                kubectl apply -f service.yaml
-                            '''
-                    }
-                }
-            }
-        }
+        // stage ('Kubernetes configuration') {
+        //     steps {
+        //         script {
+        //             withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
+        //              sh 'kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG'
+        //          }                
+        //         }
+        //     }
+        // }
+        // stage ('Kubernetes Deployment') {
+        //     steps {
+        //         script {
+        //             withCredentials([file(credentialsId: 'kube-context', variable: 'KUBECONFIG')]) {
+        //                 dir('kubernetes/myapp') {
+        //                     sh '''
+        //                         kubectl config use-context kubernetes --kubeconfig=$KUBECONFIG
+        //                         kubectl apply -f deployment.yaml
+        //                         kubectl apply -f service.yaml
+        //                     '''
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
     }
     post {
